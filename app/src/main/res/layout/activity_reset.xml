@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1">
+
+    <EditText
+        android:id="@+id/et_current_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Current Password"
+        android:inputType="numberPassword"
+        android:textColor="#ffffff"
+        android:textColorHint="@android:color/darker_gray" />
+
+    <EditText
+        android:id="@+id/et_new_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_current_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+
+        android:gravity="center"
+        android:hint="New Password"
+        android:inputType="numberPassword"
+        android:textColor="#ffffff"
+        android:textColorHint="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/bt_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_new_password"
+        android:layout_centerHorizontal="true"
+        android:background="#031759"
+        android:text="Done"
+        android:textColor="#0a7904" />
+</RelativeLayout>
