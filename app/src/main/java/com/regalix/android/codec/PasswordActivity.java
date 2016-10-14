@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class PasswordActivity extends AppCompatActivity {
 
@@ -20,11 +21,22 @@ public class PasswordActivity extends AppCompatActivity {
         btReset= (Button) findViewById(R.id.bt_reset);
         if(AppPreference.isInstalledFirst(getApplicationContext())){
             AppPreference.saveToAppPreference(getApplicationContext(),Constant.PASSWORD,Constant.DEFAULT_PIN);
+            AppPreference.saveToAppPreference(getApplicationContext(),Constant.IS_INSTALLED_FIRST,false);
         }
+
 
     }
 
     private boolean validate(){
+        boolean flag=true;
+        if(etPssd.getText().toString().trim().isEmpty()){
+            Toast.makeText(getApplicationContext(),"You havent entered anything.",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return flag;
+    }
+
+    private boolean Authenticate(){
         boolean flag=false;
         int pin = Integer.parseInt(etPssd.getText().toString());
         int savedPin= (int) AppPreference.getDataFromAppPreference(getApplicationContext(),Constant.PASSWORD,AppPreference.MODE_INT);
@@ -36,13 +48,16 @@ public class PasswordActivity extends AppCompatActivity {
 
     public void onEnter(View view){
         if(validate()){
-            startActivity(new Intent(PasswordActivity.this,MainActivity.class));
-            finish();
-        }
-        else {
+            if(Authenticate()){
+                startActivity(new Intent(PasswordActivity.this,MainActivity.class));
+                finish();
+            }
+            else {
 
-            etPssd.setError("Invalid Pin");
+                Toast.makeText(getApplicationContext(),"Incorrect Pin",Toast.LENGTH_LONG).show();
+            }
         }
+
 
     }
 
