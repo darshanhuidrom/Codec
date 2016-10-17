@@ -8,6 +8,7 @@ public class AppPreference {
     public static final int MODE_FLOAT = 2;
     public static final int MODE_INT = 3;
     public static final int MODE_STRING = 4;
+    public static final int MODE_LONG = 5;
 
     public static void saveToAppPreference(Context context, String key, String value) {
         context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).edit().putString(key, value).commit();
@@ -25,6 +26,10 @@ public class AppPreference {
         context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).edit().putFloat(key, value).commit();
     }
 
+    public static void saveToAppPreference(Context context, String key, long value) {
+        context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).edit().putLong(key, value).commit();
+    }
+
 
     public static String getDataFromAppPreference(Context context, String key) {
         return context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).getString(key, "");
@@ -40,11 +45,18 @@ public class AppPreference {
         }else if (mode == MODE_STRING) {
             return context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).getString(key,"");
         }
+        else if (mode == MODE_LONG) {
+            return context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).getLong(key,0);
+        }
         return null;
     }
 
     public static boolean isInstalledFirst(Context context) {
         return context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).getBoolean(Constant.IS_INSTALLED_FIRST, true);
+    }
+
+    public static boolean isTimerset(Context context) {
+        return context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE).getBoolean(Constant.IS_TIMER_SET, true);
     }
 
 

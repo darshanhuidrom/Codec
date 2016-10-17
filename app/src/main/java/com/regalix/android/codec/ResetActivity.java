@@ -31,6 +31,8 @@ public class ResetActivity extends AppCompatActivity {
 
             } else {
                 etCurPssd.setError("Incorrect Pin");
+                etCurPssd.setText("");
+                etNewPssd.setText("");
             }
         }
 
