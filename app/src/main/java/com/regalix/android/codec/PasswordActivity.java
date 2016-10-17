@@ -39,8 +39,11 @@ public class PasswordActivity extends AppCompatActivity {
             long time = Constant.getCurrentTime();
             long thresholdTime = (long) AppPreference.getDataFromAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, AppPreference.MODE_LONG);
             long sec = (thresholdTime - time) / 1000;
+            long min= sec/60;
+            long remSec=sec%60;
             if (time < thresholdTime) {
-                showClosingDialog("" + sec);
+
+                showClosingDialog("" + min+":"+remSec);
             }
 
         }
@@ -84,7 +87,7 @@ public class PasswordActivity extends AppCompatActivity {
                 if (noOfAttempts >= 2) {
                     long time = Constant.getCurrentTime();
                     if (AppPreference.isTimerset(getApplicationContext())) {
-                        AppPreference.saveToAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, time + 2 * Constant.MILLSEC_TO_MIN_FACTOR);
+                        AppPreference.saveToAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, time + Constant.DELAY_TIME * Constant.MILLSEC_TO_MIN_FACTOR);
                         AppPreference.saveToAppPreference(getApplicationContext(), Constant.IS_TIMER_SET, false);
                     }
                     long thresholdTime = (long) AppPreference.getDataFromAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, AppPreference.MODE_LONG);
@@ -92,7 +95,9 @@ public class PasswordActivity extends AppCompatActivity {
                         Log.d(">>>>>>", "system Blocked");
                         Log.d(">>>>>>", "current time: " + time + "ThresholdTime: " + thresholdTime);
                         long sec = (thresholdTime - time) / 1000;
-                        showClosingDialog("" + sec);
+                        long min= sec/60;
+                        long remSec=sec%60;
+                        showClosingDialog("" + min+":"+remSec);
                     } else {
                         Log.d(">>>>>>", "system Unlock");
                         Log.d(">>>>>>", "current time: " + time + "ThresholdTime: " + thresholdTime);
@@ -118,7 +123,7 @@ public class PasswordActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Warning");
         builder.setCancelable(false);
-        builder.setMessage("Your App has been blocked.You have tried maximum attempts.Please try after " + msg + " seconds.");
+        builder.setMessage("Your App has been blocked.You have tried maximum attempts.Please try after " + msg + " mins.");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

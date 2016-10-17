@@ -11,6 +11,7 @@ public class Constant {
     public static final long  MILLSEC_TO_MIN_FACTOR= 60000;
     public static final String  IS_TIMER_SET= "is_timer_set";
     public static final String  THRESHOLD_TIME= "threshold_time";
+    public static final long  DELAY_TIME= 5;
 
 
 
