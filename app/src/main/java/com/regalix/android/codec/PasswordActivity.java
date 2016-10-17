@@ -27,6 +27,14 @@ public class PasswordActivity extends AppCompatActivity {
             AppPreference.saveToAppPreference(getApplicationContext(), Constant.PASSWORD, Constant.DEFAULT_PIN);
             AppPreference.saveToAppPreference(getApplicationContext(), Constant.IS_INSTALLED_FIRST, false);
         }
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (!AppPreference.isTimerset(getApplicationContext())) {
             long time = Constant.getCurrentTime();
             long thresholdTime = (long) AppPreference.getDataFromAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, AppPreference.MODE_LONG);
@@ -36,8 +44,6 @@ public class PasswordActivity extends AppCompatActivity {
             }
 
         }
-
-
     }
 
     private boolean validate() {
@@ -68,13 +74,17 @@ public class PasswordActivity extends AppCompatActivity {
                 AppPreference.saveToAppPreference(getApplicationContext(), Constant.IS_TIMER_SET, true);
             } else {
 
-                Toast.makeText(getApplicationContext(), "Incorrect Pin", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Incorrect Pin", Toast.LENGTH_SHORT).show();
                 etPssd.setText("");
                 int noOfAttempts = (int) AppPreference.getDataFromAppPreference(getApplicationContext(), Constant.NO_OF_ATTEMPTS, AppPreference.MODE_INT);
+                if(noOfAttempts>=0&&noOfAttempts<2){
+                    int ii= 2-noOfAttempts;
+                    Toast.makeText(getApplicationContext(), "Only "+ii+" attempt left.", Toast.LENGTH_SHORT).show();
+                }
                 if (noOfAttempts >= 2) {
                     long time = Constant.getCurrentTime();
                     if (AppPreference.isTimerset(getApplicationContext())) {
-                        AppPreference.saveToAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, time + 1 * Constant.MILLSEC_TO_MIN_FACTOR);
+                        AppPreference.saveToAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, time + 2 * Constant.MILLSEC_TO_MIN_FACTOR);
                         AppPreference.saveToAppPreference(getApplicationContext(), Constant.IS_TIMER_SET, false);
                     }
                     long thresholdTime = (long) AppPreference.getDataFromAppPreference(getApplicationContext(), Constant.THRESHOLD_TIME, AppPreference.MODE_LONG);
@@ -106,8 +116,9 @@ public class PasswordActivity extends AppCompatActivity {
 
     public void showClosingDialog(String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Warning");
         builder.setCancelable(false);
-        builder.setMessage("Your App has been blocked.Please wait for " + msg + " seconds.");
+        builder.setMessage("Your App has been blocked.You have tried maximum attempts.Please try after " + msg + " seconds.");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
